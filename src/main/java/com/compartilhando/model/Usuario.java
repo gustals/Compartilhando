@@ -1,6 +1,7 @@
 package com.compartilhando.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -12,13 +13,19 @@ public class Usuario {
 	private Long id;
 	private String email;
 	private String senha;
-		
+	@OneToMany
+	private List<Usuario> seguidores;
+	@OneToMany
+	private List<Usuario> seguindo;
+	
 	public Usuario() {
 
 	}
 	public Usuario(String email, String senha) {
 		this.email = email;
 		this.senha = senha;
+		this.seguidores=null;
+		this.seguindo=null;
 	}
 	public Long getId() {
 		return id;
@@ -38,4 +45,17 @@ public class Usuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+	public List<Usuario> getSeguidores() {
+		return seguidores;
+	}
+	public void setSeguidores(List<Usuario> seguidores) {
+		this.seguidores = seguidores;
+	}
+	public List<Usuario> getSeguindo() {
+		return seguindo;
+	}
+	public void setSeguindo(List<Usuario> seguindo) {
+		this.seguindo = seguindo;
+	}
+	
 }

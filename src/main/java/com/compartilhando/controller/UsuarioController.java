@@ -24,12 +24,7 @@ public class UsuarioController {
 	
 	@GetMapping("/")
 	public List<Usuario> Listar(){
-		Usuario a=new Usuario("gustavo@email.com", "1234");
-		usuarioRepository.save(a);
-		Usuario b=new Usuario("adrenalina@email.com", "4321");
-		usuarioRepository.save(b);
-		List<Usuario> listaUsuario=(List<Usuario>) usuarioRepository.findAll();
-		return listaUsuario;
+		return (List<Usuario>) usuarioRepository.findAll();
 	}
 	
 	@GetMapping("/{id}")

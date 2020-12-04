@@ -21,8 +21,7 @@ public class PostController {
 	
 	@GetMapping
 	public List<Post> Listar() {
-		List<Post> posts;
-		return posts=(List<Post>) postRepository.findAll();
+		return (List<Post>) postRepository.findAll();
 	}
 	
 	@PostMapping
