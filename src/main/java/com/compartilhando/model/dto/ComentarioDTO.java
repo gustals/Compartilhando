@@ -7,23 +7,23 @@ import javax.persistence.*;
 
 public class ComentarioDTO {
 
-	private String user;
+	private Long idenficadorUsuario;
 	private String descricaoComentario;
 	
 	public ComentarioDTO() {
 
 	}
 	
-	public ComentarioDTO(String user, String descricaoComentario) {
-		this.user = user;
+	public ComentarioDTO(Long user, String descricaoComentario) {
+		this.idenficadorUsuario = user;
 		this.descricaoComentario = descricaoComentario;
 	}
 	
-	public String getIdenficadorUsuario() {
-		return user;
+	public Long getIdenficadorUsuario() {
+		return idenficadorUsuario;
 	}
-	public void setIdenficadorUsuario(String user) {
-		this.user = user;
+	public void setIdenficadorUsuario(Long user) {
+		this.idenficadorUsuario = user;
 	}
 	public String getDescricaoComentario() {
 		return descricaoComentario;

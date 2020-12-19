@@ -5,6 +5,14 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator;
+
+//@JsonIgnoreProperties(ignoreUnknown=true, value= {"seguidores", "seguindo"})
+@JsonIdentityInfo(generator = PropertyGenerator.class,  property = "id")
 @Entity
 public class Usuario {
 	
@@ -13,10 +21,13 @@ public class Usuario {
 	private Long id;
 	private String email;
 	private String senha;
+
 	@OneToMany
-	private List<Usuario> seguidores;
+	private List<RelacionamentoUsuarios> seguidores;
 	@OneToMany
-	private List<Usuario> seguindo;
+	private List<RelacionamentoUsuarios> seguindo;
+	
+	private String pathImagem;
 	
 	public Usuario() {
 
@@ -45,17 +56,29 @@ public class Usuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	public List<Usuario> getSeguidores() {
+	public List<RelacionamentoUsuarios> getSeguidores() {
 		return seguidores;
 	}
-	public void setSeguidores(List<Usuario> seguidores) {
+	public void setSeguidores(List<RelacionamentoUsuarios> seguidores) {
 		this.seguidores = seguidores;
 	}
-	public List<Usuario> getSeguindo() {
+	public void addSeguidores(RelacionamentoUsuarios user) {
+		this.seguidores.add(user);
+	}
+	public List<RelacionamentoUsuarios> getSeguindo() {
 		return seguindo;
 	}
-	public void setSeguindo(List<Usuario> seguindo) {
+	public void setSeguindo(List<RelacionamentoUsuarios> seguindo) {
 		this.seguindo = seguindo;
+	}
+	public void addSeguindo(RelacionamentoUsuarios user) {
+		this.seguindo.add(user);
+	}
+	public String getPathImagem() {
+		return pathImagem;
+	}
+	public void setPathImagem(String pathImagem) {
+		this.pathImagem = pathImagem;
 	}
 	
 }

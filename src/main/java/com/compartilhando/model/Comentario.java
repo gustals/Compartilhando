@@ -14,7 +14,7 @@ public class Comentario {
 	@ManyToOne
 	private Usuario usuario;
 	private String descricaoComentario;
-	private LocalDateTime dateHoraComentario;//ajustar para pegar do front, quando tiver front
+	private LocalDateTime dateHoraComentario;
 	@OneToMany
 	private List<Curtida> curtidas;
 	
@@ -26,7 +26,6 @@ public class Comentario {
 	public Comentario(Usuario usuario, String descricaoComentario) {
 		this.usuario = usuario;
 		this.descricaoComentario = descricaoComentario;
-		this.dateHoraComentario=LocalDateTime.now();
 		this.curtidas=null;
 	}
 	
@@ -45,15 +44,15 @@ public class Comentario {
 	public List<Curtida> getCurtidas() {
 		return curtidas;
 	}
-	public void setCurtidas(List<Curtida> curtidas) {
-		this.curtidas = curtidas;
+	public void addCurtidas(Curtida curtida) {
+		this.curtidas.add(curtida);
 	}
 
-	public Usuario getUser() {
+	public Usuario getUsuario() {
 		return usuario;
 	}
 
-	public void setUser(Usuario user) {
+	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
 
