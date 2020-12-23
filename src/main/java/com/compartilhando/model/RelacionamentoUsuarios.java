@@ -21,8 +21,8 @@ public class RelacionamentoUsuarios {
 	public RelacionamentoUsuarios() {
 
 	}
-	public RelacionamentoUsuarios(Long relacionado) {
-		this.usuarioId = relacionado;
+	public RelacionamentoUsuarios(Long usuarioId) {
+		this.usuarioId = usuarioId;
 	}
 	
 	
@@ -34,12 +34,12 @@ public class RelacionamentoUsuarios {
 		this.id = id;
 	}
 
-	public Long getRelacionado() {
+	public Long getusuarioId() {
 		return usuarioId;
 	}
 
-	public void setRelacionado(Long relacionado) {
-		this.usuarioId = relacionado;
+	public void setusuarioId(Long usuarioId) {
+		this.usuarioId = usuarioId;
 	}
 
 }

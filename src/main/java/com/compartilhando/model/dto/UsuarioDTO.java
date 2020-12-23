@@ -4,13 +4,17 @@ public class UsuarioDTO {
 	
 	private Long id;
 	private String email;
+	private String nome;
+	private String senha;
 	
 	public UsuarioDTO() {
 
 	}
-	public UsuarioDTO(Long id,String email, String senha) {
+	public UsuarioDTO(Long id,String email, String senha, String nome) {
 		this.id=id;
 		this.email = email;
+		this.nome=nome;
+		this.senha=senha;
 
 	}
 	public UsuarioDTO(Long id) {
@@ -27,5 +31,19 @@ public class UsuarioDTO {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getSenha() {
+		return senha;
+	}
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
 	}	
+	
+	
 }

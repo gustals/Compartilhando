@@ -2,9 +2,9 @@ package com.compartilhando.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.compartilhando.model.Post;
+import com.compartilhando.model.Postagem;
 
 
-public interface PostRepository extends CrudRepository<Post, Long>{
+public interface PostRepository extends CrudRepository<Postagem, Long>{
 
 }

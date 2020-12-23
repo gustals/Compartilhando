@@ -1,4 +1,4 @@
-package com.compartilhando.classificador;
+package com.compartilhando.enums;
 
 public enum TipoImagem {
 	USUARIO,

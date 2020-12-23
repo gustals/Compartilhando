@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 
 @Entity
-public class Post {
+public class Postagem {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +25,11 @@ public class Post {
 	private List<Curtida> curtidas;
 	private String pathImagem;
 	
-	public Post() {
+	public Postagem() {
 
 	}
 
-	public Post(String textoPost, Usuario usuario) {
+	public Postagem(String textoPost, Usuario usuario) {
 		this.textoPost = textoPost;
 		this.usuario = usuario;
 	}

@@ -9,14 +9,15 @@ import java.nio.file.Path;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.compartilhando.classificador.TipoImagem;
+import com.compartilhando.enums.TipoImagem;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 
-@Component
+@Service
 public class ImagemService {
 	@Value("${compartilhando.imagens.raiz}")
 	private String raiz;
