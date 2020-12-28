@@ -20,6 +20,7 @@ git clone https://github.com/gustals/Compartilhando.git
 Abra o projeto na IDE
 Escolha a opção de execução (Run as): "Executar como Spring Boot App"
 Acesse a documenrtação da Api pelo navegador: [http://localhost:8080/swagger-ui/](http://localhost:8080/swagger-ui/)
+OBS.: PRETENDO ALTERAR A DOCUMENTAÇÃO DA API PARA O POSTMAN, O SWAGGER DIFICULTA BASTANTE O UPLOAD DE IMAGENS
 
 ``
 
