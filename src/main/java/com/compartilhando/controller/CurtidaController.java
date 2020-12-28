@@ -45,20 +45,20 @@ public class CurtidaController {
 		}
 	}
 	
-	@PostMapping("/comentario/{id}")
-	public ResponseEntity salvarCurtidaComentario(@PathVariable ("id") Long id, @RequestBody CurtidaDTO curtidaDTO) {
+	@PostMapping("/comentario/{idComentario}")
+	public ResponseEntity salvarCurtidaComentario(@PathVariable ("idComentario") Long idComentario, @RequestBody CurtidaDTO curtidaDTO) {
 		try {
-			Curtida curtida = curtidaService.salvarCurtidaComentario(id, curtidaDTO);
+			Curtida curtida = curtidaService.salvarCurtidaComentario(idComentario, curtidaDTO);
 			return new ResponseEntity(curtida, HttpStatus.OK);	
 		}catch(Exception e){		
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
 	
-	@PostMapping("/post/{id}")
-	public ResponseEntity salvarCurtidaPost(@PathVariable ("id") Long id, @RequestBody CurtidaDTO curtidaDTO) {
+	@PostMapping("/post/{idPostagem}")
+	public ResponseEntity salvarCurtidaPost(@PathVariable ("idPostagem") Long idPostagem, @RequestBody CurtidaDTO curtidaDTO) {
 		try {
-			Curtida curtida = curtidaService.salvarCurtidaPost(id, curtidaDTO);
+			Curtida curtida = curtidaService.salvarCurtidaPost(idPostagem, curtidaDTO);
 			return new ResponseEntity(curtida, HttpStatus.OK);	
 		}catch(Exception e){		
 			return ResponseEntity.badRequest().body(e.getMessage());

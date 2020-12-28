@@ -10,8 +10,15 @@ public class UsuarioDTO {
 	public UsuarioDTO() {
 
 	}
-	public UsuarioDTO(Long id,String email, String senha, String nome) {
-		this.id=id;
+//	public UsuarioDTO(Long id,String email, String senha, String nome) {
+//		this.id=id;
+//		this.email = email;
+//		this.nome=nome;
+//		this.senha=senha;
+//
+//	}
+//	
+	public UsuarioDTO(String email, String senha, String nome) {
 		this.email = email;
 		this.nome=nome;
 		this.senha=senha;

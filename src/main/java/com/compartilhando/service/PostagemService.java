@@ -59,7 +59,7 @@ public class PostagemService {
 		Postagem post = postRepository.findById(postNovo.getId()).get();
 		post.setTextoPost(postNovo.getTextoPost());
 		
-		if(!file.isEmpty()) {
+		if(file!=null) {
 			String pathImagem = imagemService.salvarFoto(TipoImagem.POST, post.getId(), file);
 			post.setPathImagem(pathImagem);
 		}

@@ -36,10 +36,10 @@ public class ComentarioController {
 		}
 	}
 	
-	@PostMapping("/{id}")
-	public ResponseEntity salvarComentarioPost(@PathVariable ("id") Long id, @RequestBody ComentarioDTO comentarioDTO) {
+	@PostMapping("/{idComentario}")
+	public ResponseEntity salvarComentarioPost(@PathVariable ("idComentario") Long idComentario, @RequestBody ComentarioDTO comentarioDTO) {
 		try {
-			Comentario comentario = comentarioService.salvarComentarioPost(id, comentarioDTO);
+			Comentario comentario = comentarioService.salvarComentarioPost(idComentario, comentarioDTO);
 			return new ResponseEntity(comentario, HttpStatus.OK);	
 		}catch(Exception e){		
 			return ResponseEntity.badRequest().body(e.getMessage());

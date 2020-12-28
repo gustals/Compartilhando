@@ -59,7 +59,8 @@ public class UsuarioController {
 		}
 	}
 	
-
+	@ApiOperation(value="Escreva novoUsuarioString neste formato:{"+"\"email\": \"(email qualquer não há validação de formato)\","+ "\"senha\": \"(senah qualquer)\","
+						+"\"nome\": \"(nome qualquer)\""+"}")
 	@PostMapping
 	public ResponseEntity cadastrarUsuario(@RequestParam(value = "file", required = false) MultipartFile file,
 									@RequestParam String novoUsuarioString) throws JsonProcessingException {
@@ -76,7 +77,9 @@ public class UsuarioController {
 	 
 	}
 	
-	@PostMapping("/alterar")
+	@ApiOperation(value="Escreva novoUsuarioString neste formato:{"+"\"id\":\"(ID do usuario editado)\","+"\"email\": \"(email qualquer não há validação de formato)\","+ "\"senha\": \"(senha qualquer)\","
+			+"\"nome\": \"(nome qualquer)\""+"}")
+	@PostMapping("/editar")
 	public ResponseEntity alterarUsuario(@RequestParam(value = "file", required = false) MultipartFile file,
 									@RequestParam String usuarioAlterado) throws JsonProcessingException {
 		
@@ -93,10 +96,10 @@ public class UsuarioController {
 	
 	
 	@PostMapping("/seguir")
-	public ResponseEntity seguir(@RequestParam Long usuarioDonoDoPerfil, @RequestParam Long usuarioSeguido) {	
+	public ResponseEntity seguir(@RequestParam Long IDusuarioDonoDoPerfil, @RequestParam Long IDusuarioSeguido) {	
 		
 		try {
-			usuarioService.seguirUsuario(usuarioDonoDoPerfil, usuarioSeguido);
+			usuarioService.seguirUsuario(IDusuarioDonoDoPerfil, IDusuarioSeguido);
 			return new ResponseEntity(HttpStatus.OK);		
 		}catch(Exception e){			
 			return ResponseEntity.badRequest().body(e.getMessage());

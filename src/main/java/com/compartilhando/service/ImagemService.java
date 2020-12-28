@@ -31,9 +31,17 @@ public class ImagemService {
 	@Value("${compartilhando.imagens.fotos.perfilPadrao}")
 	private String fotoPadraoUsuario;
 	
+	@Value("${compartilhando.imagens.fotos.postPadrao}")
+	private String fotoPadraoPost;
+	
 	public String salvarFoto(TipoImagem tipoImagem, Long id,MultipartFile foto) {
-		if(foto.isEmpty())
-			return this.fotoPadraoUsuario;
+		if(foto==null) {
+			if(tipoImagem.equals(tipoImagem.USUARIO))
+				return this.fotoPadraoUsuario;
+			else
+				return this.fotoPadraoPost;
+		}
+			
 		if(tipoImagem.equals(tipoImagem.USUARIO))
 			return this.salvar(this.diretorioFotosUsuario, id, foto);
 		else

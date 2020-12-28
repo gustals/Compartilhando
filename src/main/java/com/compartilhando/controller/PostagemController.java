@@ -21,6 +21,8 @@ import com.compartilhando.service.PostagemService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value = "/post")
 public class PostagemController {
@@ -49,6 +51,7 @@ public class PostagemController {
 		}
 	}
 	
+	@ApiOperation(value="Escreva postString neste formato: {"+"\"textoPost\": \"(texto da postagem)"+","+"\"usuario\": \"(numero identificador do usuario 'ID')\""+ "}")
 	@PostMapping
 	public ResponseEntity salvarPostagem(@RequestParam(value = "file", required = false) MultipartFile file,
 								@RequestParam String postString) throws JsonProcessingException  {
@@ -64,10 +67,10 @@ public class PostagemController {
 		}
 			
 	}
-	
+	@ApiOperation(value="Escreva postString neste formato: {"+ "\"id\":\"(ID do post editado)\","+ "\"textoPost\": \"(novo texto da postagem)\","+ "\"usuario\": \"(numero identificador do usuario 'ID')\""+ "}")
 	@PostMapping("/editar")
 	public ResponseEntity editarPostagem(@RequestParam(value = "file", required = false) MultipartFile file,
-								@RequestParam String postString) throws JsonProcessingException  {
+								@RequestParam PostDTO postString) throws JsonProcessingException  {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		PostDTO postDTO = mapper.readValue(postString.toString(), PostDTO.class);
