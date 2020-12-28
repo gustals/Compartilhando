@@ -5,7 +5,7 @@ comentários e a ação de seguir outro usuário
 
 ### Este repositório contém a API do sistema, o front-end será implementado em react com bootstrap 
 
-### Requisitos para executar do projeto
+### Requisitos para executar o projeto
 -   Kit de desenvolvimento JAVA  `jdk-8` ([[https://java.com/pt_BR/]](https://java.com/pt_BR/%5D))
 -   Uma IDE que execute projetos Java com SpringBoot, (recomendo o Spring tool suite)
 
