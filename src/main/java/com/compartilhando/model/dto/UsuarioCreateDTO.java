@@ -1,38 +1,24 @@
 package com.compartilhando.model.dto;
 
-public class UsuarioDTO {
+public class UsuarioCreateDTO {
 	
-	private Long id;
 	private String email;
 	private String nome;
 	private String senha;
+	private String pathImagem;
 	
-	public UsuarioDTO() {
+	public UsuarioCreateDTO() {
 
 	}
-//	public UsuarioDTO(Long id,String email, String senha, String nome) {
-//		this.id=id;
-//		this.email = email;
-//		this.nome=nome;
-//		this.senha=senha;
-//
-//	}
-//	
-	public UsuarioDTO(String email, String senha, String nome) {
+	public UsuarioCreateDTO(String email, String senha, String nome, String pathImagem) {
 		this.email = email;
 		this.nome=nome;
 		this.senha=senha;
+		this.pathImagem=pathImagem;
 
 	}
-	public UsuarioDTO(Long id) {
-		this.id=id;
-	}
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+	
+
 	public String getEmail() {
 		return email;
 	}
@@ -50,6 +36,12 @@ public class UsuarioDTO {
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	public String getPathImagem() {
+		return pathImagem;
+	}
+	public void setPathImagem(String pathImagem) {
+		this.pathImagem = pathImagem;
 	}	
 	
 	

@@ -26,7 +26,7 @@ public class CurtidaController {
 	private CurtidaService curtidaService;
 	
 	@GetMapping
-	public ResponseEntity Listar() {
+	public ResponseEntity listarTodos() {
 		try {
 			List<Curtida> curtidas = curtidaService.listarTodos();
 			return new ResponseEntity(curtidas, HttpStatus.OK);	

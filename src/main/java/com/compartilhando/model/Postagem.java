@@ -29,9 +29,10 @@ public class Postagem {
 
 	}
 
-	public Postagem(String textoPost, Usuario usuario) {
+	public Postagem(String textoPost, Usuario usuario, String pathImagem) {
 		this.textoPost = textoPost;
 		this.usuario = usuario;
+		this.pathImagem=pathImagem;
 	}
 
 	public Long getId() {

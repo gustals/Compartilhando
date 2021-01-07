@@ -3,33 +3,30 @@ package com.compartilhando.model.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties
-public class PostDTO {
+public class PostCreateDTO {
 	
-	private Long id;
 	private String textoPost;
 	private Long usuarioIdentificador;
+	private String pathImagem;
 	
-	public PostDTO() {
+	public PostCreateDTO() {
 
 	}
 	
-	public PostDTO(String textoPost, Long usuarioIdentificador) {
+	public PostCreateDTO(String textoPost, Long usuarioIdentificador, String pathImagem) {
 		this.textoPost = textoPost;
 		this.usuarioIdentificador = usuarioIdentificador;
+		this.pathImagem=pathImagem;
 	}
 	
-	public PostDTO(Long id,String textoPost, Long usuarioIdentificador) {
-		this.id=id;
-		this.textoPost = textoPost;
-		this.usuarioIdentificador = usuarioIdentificador;
+	
+
+	public String getPathImagem() {
+		return pathImagem;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public void setPathImagem(String pathImagem) {
+		this.pathImagem = pathImagem;
 	}
 
 	public String getTextoPost() {

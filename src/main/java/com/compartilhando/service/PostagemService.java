@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.compartilhando.enums.TipoImagem;
+import com.compartilhando.exception.RegraDeNegocioException;
 import com.compartilhando.model.Postagem;
-import com.compartilhando.model.dto.PostDTO;
+import com.compartilhando.model.dto.PostCreateDTO;
+import com.compartilhando.model.dto.PostUpdateDTO;
 import com.compartilhando.repository.PostRepository;
 import com.compartilhando.repository.UsuarioRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -26,46 +29,49 @@ public class PostagemService {
 	private PostRepository postRepository;
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	@Autowired
-	private ImagemService imagemService;
+	@Value("${compartilhando.imagens.fotos.postPadrao}")
+	private String fotoPadraoPost;
 	
 	
-	@GetMapping
 	public List<Postagem> listarTodos() {
 		return (List<Postagem>) postRepository.findAll();
 	}
 	
 	public Postagem buscarPorId(Long id) {
-		return postRepository.findById(id).get();
+		if(postRepository.findById(id).isPresent())
+			return postRepository.findById(id).get();
+		else
+			throw new RegraDeNegocioException("Usuario não existe");
+		
 	}
 	
 	
-	public Postagem salvarPostagem( MultipartFile file, PostDTO postNovo) throws JsonProcessingException  {
+	public Postagem salvarPostagem(PostCreateDTO postNovo) throws JsonProcessingException  {
 		
-		Postagem post = new Postagem(postNovo.getTextoPost(), usuarioRepository.findById(postNovo.getUsuario()).get());
+		if(!usuarioRepository.findById(postNovo.getUsuario()).isPresent()) {
+			throw new RegraDeNegocioException("Usuario não existe");
+		}
 		
+		Postagem post = new Postagem(postNovo.getTextoPost(), usuarioRepository.findById(postNovo.getUsuario()).get(), postNovo.getPathImagem());
 		post.setDateHoraPost(LocalDateTime.now());
-		postRepository.save(post);
 		
-		String pathImagem = imagemService.salvarFoto(TipoImagem.POST, post.getId(), file);
-		post.setPathImagem(pathImagem);
-		
+		if(post.getPathImagem().equals("")) 
+			post.setPathImagem(fotoPadraoPost);
+				
 		return postRepository.save(post);
-		
 	}
 	
-	public Postagem editarPostagem( MultipartFile file, PostDTO postNovo) throws JsonProcessingException  {
+	public Postagem editarPostagem(PostUpdateDTO postNovo) throws JsonProcessingException  {	
+		
+		if(!postRepository.findById(postNovo.getId()).isPresent()) {
+			throw new RegraDeNegocioException("Postagem não existe");
+		}
 		
 		Postagem post = postRepository.findById(postNovo.getId()).get();
 		post.setTextoPost(postNovo.getTextoPost());
-		
-		if(file!=null) {
-			String pathImagem = imagemService.salvarFoto(TipoImagem.POST, post.getId(), file);
-			post.setPathImagem(pathImagem);
-		}
+		post.setPathImagem(postNovo.getPathImagem());
 
-		return postRepository.save(post);
-		
+		return postRepository.save(post);		
 	}
 	
 }

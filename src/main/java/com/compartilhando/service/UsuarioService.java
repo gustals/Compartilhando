@@ -3,6 +3,7 @@ package com.compartilhando.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,7 +11,8 @@ import com.compartilhando.enums.TipoImagem;
 import com.compartilhando.exception.RegraDeNegocioException;
 import com.compartilhando.model.RelacionamentoUsuarios;
 import com.compartilhando.model.Usuario;
-import com.compartilhando.model.dto.UsuarioDTO;
+import com.compartilhando.model.dto.UsuarioCreateDTO;
+import com.compartilhando.model.dto.UsuarioUpdateDTO;
 import com.compartilhando.repository.RelacionamentoUsuariosRepository;
 import com.compartilhando.repository.UsuarioRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,8 +26,10 @@ public class UsuarioService {
 	private UsuarioRepository usuarioRepository;
 	@Autowired
 	private RelacionamentoUsuariosRepository relacionamentoUsuariosRepository;
-	@Autowired
-	private ImagemService imagemService;
+	//@Autowired
+	//private ImagemService imagemService;
+	@Value("${compartilhando.imagens.fotos.perfilPadrao}")
+	private String fotoPadraoUsuario;
 	
 
 	public List<Usuario> listarTodos(){
@@ -41,33 +45,27 @@ public class UsuarioService {
 		return usuarioRepository.findById(id).get();
 	}
 
-	public Usuario salvarUsuario(MultipartFile file, UsuarioDTO novoUsuario) throws JsonMappingException, JsonProcessingException {
-	
-		Usuario user = new Usuario(novoUsuario.getEmail(), novoUsuario.getSenha(), novoUsuario.getNome());
+	public Usuario salvarUsuario(UsuarioCreateDTO novoUsuario) throws JsonMappingException, JsonProcessingException {
 		
-		if(validarUsuario(user.getEmail())) {
+		if(validarUsuario(novoUsuario.getEmail())) {
 			throw new RegraDeNegocioException("Email ja esta em uso por outro usuario!");
 		}
 		
-		usuarioRepository.save(user);
+		Usuario user = new Usuario(novoUsuario.getEmail(), novoUsuario.getSenha(), novoUsuario.getNome(), novoUsuario.getPathImagem());
 		
-		String pathImagem = imagemService.salvarFoto(TipoImagem.USUARIO, user.getId(), file);
-		user.setPathImagem(pathImagem);
+		if(user.getPathImagem().equals("")) 
+			user.setPathImagem(fotoPadraoUsuario);
 		
 		return usuarioRepository.save(user);
 	}
 	
-	public Usuario alterarUsuario(MultipartFile file, UsuarioDTO usuarioAlterado) throws JsonMappingException, JsonProcessingException {
+	public Usuario alterarUsuario(UsuarioUpdateDTO usuarioAlterado) throws JsonMappingException, JsonProcessingException {
 		
 		Usuario user = usuarioRepository.findById(usuarioAlterado.getId()).get();
 		user.setSenha(usuarioAlterado.getSenha());
 		user.setNome(usuarioAlterado.getNome());
+		user.setPathImagem(usuarioAlterado.getPathImagem());
 		
-		if(!file.isEmpty()) {
-			String pathImagem = imagemService.salvarFoto(TipoImagem.USUARIO, user.getId(), file);
-			user.setPathImagem(pathImagem);
-		}
-
 		return usuarioRepository.save(user);
 	}
 	

@@ -19,7 +19,7 @@ public class Usuario {
 	private String nome;
 	private String email;
 	private String senha;
-
+	
 	@OneToMany
 	private List<RelacionamentoUsuarios> seguidores;
 	@OneToMany
@@ -30,10 +30,11 @@ public class Usuario {
 	public Usuario() {
 
 	}
-	public Usuario(String email, String senha, String nome) {
+	public Usuario(String email, String senha, String nome, String pathImagem) {
 		this.email = email;
 		this.nome=nome;
 		this.senha = senha;
+		this.pathImagem=pathImagem;
 		this.seguidores=null;
 		this.seguindo=null;
 	}

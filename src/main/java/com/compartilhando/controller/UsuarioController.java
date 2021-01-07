@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.compartilhando.exception.RegraDeNegocioException;
 import com.compartilhando.model.Usuario;
-import com.compartilhando.model.dto.UsuarioDTO;
+import com.compartilhando.model.dto.UsuarioCreateDTO;
+import com.compartilhando.model.dto.UsuarioUpdateDTO;
 import com.compartilhando.service.UsuarioService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,8 +41,7 @@ public class UsuarioController {
 	private UsuarioService usuarioService;
 	
 	@GetMapping("/")
-	@ApiOperation(value="retorna uma lista com todos os ususarios do sistema")
-	public ResponseEntity Listar(){
+	public ResponseEntity listarTodos(){
 		try {
 			List<Usuario> usuarios = usuarioService.listarTodos();
 			return new ResponseEntity(usuarios, HttpStatus.OK);	
@@ -54,22 +56,16 @@ public class UsuarioController {
 		try {
 			Usuario usuario = usuarioService.buscarPorId(id);
 			return new ResponseEntity(usuario, HttpStatus.OK);	
-		}catch(Exception e){		
+		}catch(RegraDeNegocioException e){		
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 	}
 	
-	@ApiOperation(value="Escreva novoUsuarioString neste formato:{"+"\"email\": \"(email qualquer não há validação de formato)\","+ "\"senha\": \"(senah qualquer)\","
-						+"\"nome\": \"(nome qualquer)\""+"}")
 	@PostMapping
-	public ResponseEntity cadastrarUsuario(@RequestParam(value = "file", required = false) MultipartFile file,
-									@RequestParam String novoUsuarioString) throws JsonProcessingException {
-		
-		ObjectMapper mapper = new ObjectMapper();
-		UsuarioDTO userDTO = mapper.readValue(novoUsuarioString.toString(), UsuarioDTO.class);
+	public ResponseEntity cadastrarUsuario(@RequestBody UsuarioCreateDTO novoUsuario) throws JsonProcessingException {
 		
 		try {
-			Usuario usuarioCriado = usuarioService.salvarUsuario(file, userDTO);
+			Usuario usuarioCriado = usuarioService.salvarUsuario(novoUsuario);
 			return new ResponseEntity(usuarioCriado, HttpStatus.CREATED);	
 		}catch(RegraDeNegocioException e){		
 			return ResponseEntity.badRequest().body(e.getMessage());
@@ -77,17 +73,11 @@ public class UsuarioController {
 	 
 	}
 	
-	@ApiOperation(value="Escreva novoUsuarioString neste formato:{"+"\"id\":\"(ID do usuario editado)\","+"\"email\": \"(email qualquer não há validação de formato)\","+ "\"senha\": \"(senha qualquer)\","
-			+"\"nome\": \"(nome qualquer)\""+"}")
-	@PostMapping("/editar")
-	public ResponseEntity alterarUsuario(@RequestParam(value = "file", required = false) MultipartFile file,
-									@RequestParam String usuarioAlterado) throws JsonProcessingException {
-		
-		ObjectMapper mapper = new ObjectMapper();
-		UsuarioDTO userDTO = mapper.readValue(usuarioAlterado.toString(), UsuarioDTO.class);
+	@PutMapping("/editar")
+	public ResponseEntity alterarUsuario(@RequestBody UsuarioUpdateDTO novoUsuario) throws JsonProcessingException {
 		
 		try {
-			Usuario usuarioAlt= usuarioService.alterarUsuario(file, userDTO);
+			Usuario usuarioAlt= usuarioService.alterarUsuario(novoUsuario);
 			return new ResponseEntity(usuarioAlt, HttpStatus.OK);		
 		}catch(Exception e){			
 			return ResponseEntity.badRequest().body(e.getMessage());

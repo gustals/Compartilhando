@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.compartilhando.exception.RegraDeNegocioException;
 import com.compartilhando.model.Postagem;
 import com.compartilhando.model.Usuario;
-import com.compartilhando.model.dto.PostDTO;
+import com.compartilhando.model.dto.PostCreateDTO;
+import com.compartilhando.model.dto.PostUpdateDTO;
 import com.compartilhando.service.PostagemService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,7 +35,7 @@ public class PostagemController {
 	
 	
 	@GetMapping
-	public ResponseEntity Listar() {
+	public ResponseEntity listarTodos() {
 		try {
 			List<Postagem> postagens = postagemService.listarTodos();
 			return new ResponseEntity(postagens, HttpStatus.OK);	
@@ -51,32 +54,23 @@ public class PostagemController {
 		}
 	}
 	
-	@ApiOperation(value="Escreva postString neste formato: {"+"\"textoPost\": \"(texto da postagem)"+","+"\"usuario\": \"(numero identificador do usuario 'ID')\""+ "}")
 	@PostMapping
-	public ResponseEntity salvarPostagem(@RequestParam(value = "file", required = false) MultipartFile file,
-								@RequestParam String postString) throws JsonProcessingException  {
-		
-		ObjectMapper mapper = new ObjectMapper();
-		PostDTO postDTO = mapper.readValue(postString.toString(), PostDTO.class);
-		
+	public ResponseEntity salvarPostagem(@RequestBody PostCreateDTO novoPost) throws JsonProcessingException  {
+	
 		try {
-			Postagem postagem = postagemService.salvarPostagem(file, postDTO);	
+			Postagem postagem = postagemService.salvarPostagem(novoPost);	
 			return new ResponseEntity(postagem, HttpStatus.CREATED);	
 		}catch(RegraDeNegocioException e){		
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
 			
 	}
-	@ApiOperation(value="Escreva postString neste formato: {"+ "\"id\":\"(ID do post editado)\","+ "\"textoPost\": \"(novo texto da postagem)\","+ "\"usuario\": \"(numero identificador do usuario 'ID')\""+ "}")
-	@PostMapping("/editar")
-	public ResponseEntity editarPostagem(@RequestParam(value = "file", required = false) MultipartFile file,
-								@RequestParam PostDTO postString) throws JsonProcessingException  {
-		
-		ObjectMapper mapper = new ObjectMapper();
-		PostDTO postDTO = mapper.readValue(postString.toString(), PostDTO.class);
+	
+	@PutMapping("/editar")
+	public ResponseEntity editarPostagem(@RequestBody PostUpdateDTO postEditado) throws JsonProcessingException  {
 		
 		try {
-			Postagem postagem = postagemService.editarPostagem(file, postDTO);
+			Postagem postagem = postagemService.editarPostagem(postEditado);
 			return new ResponseEntity(postagem, HttpStatus.OK);		
 		}catch(Exception e){			
 			return ResponseEntity.badRequest().body(e.getMessage());
